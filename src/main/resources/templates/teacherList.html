@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Sunshine</title>
+</head>
+
+<body>
+<!--thymeleaf怎么接收后端传来的model数据-->
+<!--<div class="panel-body">
+    <span th:text="${teachers}"></span>
+</div>-->
+
+
+<!--//将值赋给hidden域-->
+<!--<div>姓名:<span th:text="${teachers.get(0).teacherName}"></span></div>
+<div>课程:<span th:text="${teachers.get(0).course}"></span></div>-->
+
+<table>
+    <thead>
+    <tr>
+        <th>序号</th>
+        <th>姓名</th>
+        <th>课程</th>
+    </tr>
+    <tr th:each="teacher:${teachers}">
+        <td th:text="${teacher.id}"></td>
+        <td th:text="${teacher.teacherName}"></td>
+        <td th:text="${teacher.course}"></td>
+    </tr>
+    </thead>
+</table>
+
+<a href="/teacher/register">教师注册</a>
+<a href="/teacher/checkClass">教师查看班级</a>
+<a href="/teacher/inputMark">录入成绩</a>
+<a href="/student/list">查看所有学生</a>
+<a href="/teacher/class">查看班级</a>
+
+</body>
+</html>

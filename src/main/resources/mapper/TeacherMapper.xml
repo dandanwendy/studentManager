@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.trade.mapper.TeacherMapper">
+
+    <!--查询所有老师-->
+    <select id="findAll"  resultType="com.example.trade.entity.Teacher">
+ 		select * from teacher
+ 	</select>
+
+    <select id="selectByTeacher"  resultType="com.example.trade.entity.Teacher">
+ 		select * from teacher where id = #{id};
+ 	</select>
+
+    <select id="getClassMark"  resultType="com.example.trade.entity.Mark">
+ 		select * from mark where teacher_id = #{id};
+ 	</select>
+
+    <!--添加一个老师-->
+    <insert id="add" parameterType="com.example.trade.entity.Teacher">
+        insert into teacher(teacher_name,course)values(#{teacherName},#{course});
+    </insert>
+
+    <!--查询所有老师-->
+    <select id="findByIdAndPass"  resultType="com.example.trade.entity.User">
+ 		select * from user_info where name= #{name} and password = #{password}
+ 	</select>
+
+</mapper>

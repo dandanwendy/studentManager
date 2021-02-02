@@ -1,0 +1,25 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+    session:
+      timeout: 300m
+spring:
+  datasource:
+    username: jhdc
+    password: jhdc123456
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@192.168.1.230:1521:orcl
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+
+  ##########################  文件路径配置  ##########################
+project-url:
+  path: D:/zhangyue/upload/
+  url: http://localhost:8882
+
+  ##########################  日志路径配置  ##########################
+log:
+  level: info
+  path: d:/log/demoLogs

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Sunshine</title>
+</head>
+<script type="application/javascript">
+    window.onload = function () {
+        var closable = window.localStorage.getItem("closable");
+        if (closable == "true") {
+            window.close();
+            window.localStorage.removeItem("closable");
+        }
+    }
+</script>
+<body>
+<!--thymeleaf怎么接收后端传来的model数据-->
+
+<table>
+    <thead>
+    <tr>
+        <th>学号</th>
+        <th>姓名</th>
+        <th>性别</th>
+        <th>学历</th>
+        <th>专业</th>
+        <th>学院</th>
+    </tr>
+    <tr th:each="student:${students}">
+
+        <td th:text="${student.id}"></td>
+        <td th:text="${student.name}"></td>
+        <td th:text="${student.sex}"></td>
+        <td th:text="${student.education}"></td>
+        <td th:text="${student.major}"></td>
+        <td th:text="${student.school}"></td>
+        <td><a th:href="@{'/student/average3/'+${student.id}}">
+            平均成绩
+        </a></td>
+    </tr>
+    </thead>
+</table>
+<a href="/student/register">学生注册</a>
+<a href="/student/checkMark">学生查看成绩</a>
+<a href="/teacher/register">教师注册</a>
+<a href="/teacher/inputMark">录入成绩</a>
+<a href="/teacher/list">查看所有老师</a>
+
+<!--//将值赋给hidden域-->
+<!--<div>姓名:<span th:text="${students.get(0).name}"></span></div>
+<div>性别:<span th:text="${students.get(0).sex}"></span></div>
+<div>年龄:<span th:text="${students.get(0).age}"></span></div>
+<div>学历:<span th:text="${students.get(0).education}"></span></div>
+<div>专业:<span th:text="${students.get(0).major}"></span></div>-->
+
+</body>
+</html>

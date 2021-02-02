@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.trade.mapper.TradeinfojourMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.example.trade.entity.Tradeinfojour">
+        <result column="INIT_DATE" property="initDate" />
+        <result column="CURR_DATE" property="currDate" />
+        <result column="CURR_TIME" property="currTime" />
+        <result column="ALLOTNO" property="allotno" />
+        <result column="OP_ENTRUST_WAY" property="opEntrustWay" />
+        <result column="ENTRUST_STATUS" property="entrustStatus" />
+        <result column="CLIENT_ID" property="clientId" />
+        <result column="CLIENT_NAME" property="clientName" />
+        <result column="CLIENT_TYPE" property="clientType" />
+        <result column="CLIENT_SOURCE" property="clientSource" />
+        <result column="CLIENT_SEX" property="clientSex" />
+        <result column="AGE_TYPE" property="ageType" />
+        <result column="PROVINCE_NO" property="provinceNo" />
+        <result column="BRANCH_NO" property="branchNo" />
+        <result column="FUND_COMPANY" property="fundCompany" />
+        <result column="PRODUCT_TYPE" property="productType" />
+        <result column="PRODUCT_NAME" property="productName" />
+        <result column="PRODUCT_CODE" property="productCode" />
+        <result column="SHARES" property="shares" />
+        <result column="DEAL_SHARES" property="dealShares" />
+        <result column="BALANCE" property="balance" />
+        <result column="DEAL_BALANCE" property="dealBalance" />
+        <result column="BS_FLAG" property="bsFlag" />
+        <result column="BUSINESS_FLAG" property="businessFlag" />
+        <result column="PAY_TYPE" property="payType" />
+        <result column="PRODUCT_RATIO" property="productRatio" />
+        <result column="BUY_LIMIT" property="buyLimit" />
+        <result column="PRODUCT_DAYS" property="productDays" />
+        <result column="TRADE_TYPE" property="tradeType" />
+        <result column="OPBUSINESS_FLAG" property="opbusinessFlag" />
+        <result column="BANK_NO" property="bankNo" />
+        <result column="BANK_ACCOUNT" property="bankAccount" />
+        <result column="BANK_NAME" property="bankName" />
+        <result column="OPERATION_WAY" property="operationWay" />
+        <result column="EXCHG_BRANCH_NO" property="exchgBranchNo" />
+        <result column="INIT_TIME" property="initTime" />
+        <result column="CLIENT_RISK" property="clientRisk" />
+    </resultMap>
+
+    <!--查询表格信息-->
+    <select id="findAll"  resultMap="BaseResultMap">
+ 		SELECT * FROM HISTRADEINFOJOUR
+ 	</select>
+
+    <select id="getStockJourList" resultType="com.example.trade.dto.StatisticalResult">
+
+        SELECT a.*,c.client_name
+        FROM (SELECT TMP.*, ROWNUM ROW_ID
+        FROM (SELECT CLIENT_ID,
+       SUM(DECODE(INIT_DATE, ${year2}||0131, DALIY_AMOUNT, 0)) AS JANUARY,
+       SUM(DECODE(INIT_DATE, ${year2}||0228, DALIY_AMOUNT, 0)) AS FEBRUARY,
+       SUM(DECODE(INIT_DATE, ${year2}||0331, DALIY_AMOUNT, 0)) AS MARCH,
+       SUM(DECODE(INIT_DATE, ${year2}||0430, DALIY_AMOUNT, 0)) AS APRIL,
+       SUM(DECODE(INIT_DATE, ${year2}||0531, DALIY_AMOUNT, 0)) AS MAY,
+       SUM(DECODE(INIT_DATE, ${year2}||0630, DALIY_AMOUNT, 0)) AS JUNE,
+       SUM(DECODE(INIT_DATE, ${year2}||0731, DALIY_AMOUNT, 0)) AS JULY,
+       SUM(DECODE(INIT_DATE, ${year2}||0831, DALIY_AMOUNT, 0)) AS AUGUST,
+       SUM(DECODE(INIT_DATE, ${year2}||0930, DALIY_AMOUNT, 0)) AS SEPTEMBER,
+       SUM(DECODE(INIT_DATE, ${year2}||1031, DALIY_AMOUNT, 0)) AS OCTOBER,
+       SUM(DECODE(INIT_DATE, ${year2}||1130, DALIY_AMOUNT, 0)) AS NOVEMBER,
+       SUM(DECODE(INIT_DATE, ${year2}||1231, DALIY_AMOUNT, 0)) AS DECEMBER
+  FROM HISCLIENTPROPERTYJOUR
+ WHERE INIT_DATE > #{year} and INIT_DATE &lt; #{year1}
+ GROUP BY CLIENT_ID) TMP
+        WHERE ROWNUM &lt;=#{current}*#{size}) a left join clientinfox c on a.CLIENT_ID=c.CLIENT_ID
+        WHERE ROW_ID > (#{current}-1)*#{size}
+    </select>
+
+</mapper>

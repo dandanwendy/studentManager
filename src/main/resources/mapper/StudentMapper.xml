@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.trade.mapper.StudentMapper">
+
+	<resultMap type="com.example.trade.dto.StudentLearning" id="StudentLearning">
+		<id property="id" column="sid" />
+		<result property="name" column="name" />
+		<result property="sex" column="sex" />
+		<result property="age" column="age" />
+		<result property="home" column="home" />
+		<result property="education" column="education" />
+		<result property="tutor" column="tutor" />
+		<result property="major" column="major" />
+		<result property="school" column="school" />
+		<!-- 一对多配置，建立集合，集合中存放多表对应的对象 -->
+		<!-- property是实体类中的集合的名字，ofType是集合中存放的对象的全限定名称 -->
+		<collection property="marks" ofType="com.example.trade.entity.Mark">
+			<!-- id用于定义主表的唯一标识，是从表识别主表主键的唯一标识，column是结果集对应的字段名 -->
+			<id property="id" column="mid" />
+			<!-- result是普通属性，其他解释同上 -->
+			<result property="studentId" column="student_id" />
+			<result property="course" column="course" />
+			<result property="teacherId" column="teacher_id" />
+			<result property="score" column="score" />
+		</collection>
+	</resultMap>
+
+	<!--这里需要取别名，否则因为两个表中都有id属性会查询出错-->
+	<select id="studentInfo" resultMap="StudentLearning">
+		SELECT s.id sid,name,sex,age,m.id mid,student_id,course,teacher_id,score FROM student s,mark m WHERE s.id=m.student_id AND s.id=#{id};
+	</select>
+
+	<!--查询所有学生-->
+    <select id="findAll"  resultType="com.example.trade.entity.Student">
+ 		select * from student
+ 	</select>
+
+	<select id="selectById"  resultType="com.example.trade.entity.Student">
+ 		select * from student where id = #{id};
+ 	</select>
+
+	<select id="selectByCourse"  resultType="java.lang.Integer">
+	SELECT score FROM student AS s INNER JOIN mark AS m ON s.id=m.`student_id` WHERE student_id = #{id} AND m.course=#{course};
+	</select>
+
+	<!--保存新的学生-->
+	<insert id="add" parameterType="com.example.trade.entity.Student">
+        insert into student(name,sex,age,home,education,tutor,major,school)values(#{name},#{sex},#{age},#{home},#{education},#{tutor},#{major},#{school});
+    </insert>
+
+</mapper>

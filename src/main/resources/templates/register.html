@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Handling Form Submission</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1>个人信息</h1>
+<form action="#" name="myform"  th:action="@{/student/add}" th:object="${student}" method="post"
+      onsubmit="return myFunction() && checkUserName2()">
+
+    <p>学号: <input type="text" th:field="*{id}" /></p>
+    <p>姓名: <input type="text" name="name" id="name" th:field="*{name}"/></p>
+    <!-- <p>姓名: <input type="text" name="name" id="name" th:field="*{name}" onkeypress="checkUserName2()"/></p>-->
+    <p>性别: <input type="text" th:field="*{sex}" /></p>
+
+    <p>年龄: <input type="text" id ="age" th:field="*{age}"/></p>
+    <!--<p>年龄: <input type="text" id ="age" th:field="*{age}" onkeyup="myFunction()"/></p>-->
+    <!--onsubmit属性添加在input标签中不起作用-->
+    <!--<p>住址: <input type="text" th:field="*{home}" onsubmit="checkUserName()"/></p>-->
+    <p>住址: <input type="text" id="address" th:field="*{home}"  /></p>
+    <p>学历: <input type="text" th:field="*{education}" /></p>
+    <p>导师: <input type="text" th:field="*{tutor}" /></p>
+
+    <!--required限制输入框不能为空-->
+    <p>专业: <input type="text" th:field="*{major}" required/></p>
+    <p>学院: <input type="text" th:field="*{school}" required/></p>
+    <!--<button onclick="myFunction(); checkUserName2()">提交</button>
+    <input type="button" name="button" value="注册" onclick="myFunction(); checkUserName2();btn()" />-->
+    <!--onclick="myFunction()加在input标签中无用，难道只能button标签中吗-->
+    <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+</form>
+
+<script>
+    //&& checkAddress(document.getElementById("address"))
+
+    //验证年龄是否合格
+    function myFunction() {
+        //var b = document.myform.name.value;
+       // var c = document.getElementById("age").value;
+        //var a = document.getElementsByTagName("input")[3].value;
+        var a = document.getElementById("age").value;
+        if (isNaN(a) || a <= 0 || a > 150) {
+            alert("输入年龄无效");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function checkAddress(address){
+        if(address.length<2){
+            alert("地址太简单");
+            return false;
+        }else{
+            return true;
+        }
+    }
+</script>
+
+<script type="text/javascript">
+    //用户名非空验证
+    function checkUserName2(){
+        /*document.myform.name.value不行*/
+        var name = document.myform.name; //在这里我认为： name 代表的name 为 txtUser 的文本框
+
+        if(name.value.length==0){
+            alert("请输入用户名");
+            name.focus();
+            return false;
+        }else{return true;}
+    }
+
+    function checkUserName1(){
+        /*document.myform.name.value不行*/
+        var name = document["myform"]["name"]; //在这里我认为： name 代表的name 为 txtUser 的文本框
+
+        if(name.value.length==0){
+            alert("请输入用户名");
+            name.focus();
+            return false;
+        }else{return true;}
+    }
+
+    function checkUserName(){
+        var name = document.myform.txtUser; //在这里我认为： name 代表的name 为 txtUser 的文本框
+        if(name.value.length==0){
+            alert("请输入用户名");
+            name.focus();
+            return false;
+        }else{return true;}
+    }
+
+    //密码非空验证+确认验证
+    function checkPass(){
+        var pass=document.myform.txtPass;
+        var rpass=document.myform.txtRPass;
+        if(pass.value==""){
+            alert("密码不能为空");
+            pass.focus();
+            return false;
+        }else if (pass.value.length<4 || pass.value.length>16){
+            alert("密码的长度必须在4-16个字符");
+            pass.select();
+            return false;
+        }else if(rpass.value!=pass.value){
+            alert("确认密码与密码输入不一致");
+            rpass.select();
+            return false;
+        }else{return true;}
+    }
+
+</script>
+</body>
+</html>

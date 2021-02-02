@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Handling Form Submission</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1>个人信息</h1>
+<form action="#" th:action="@{/teacher/insertMark}" th:object="${mark}" method="post">
+    <p>学号: <input type="text" th:field="*{studentId}" /></p>
+    <p>课程: <input type="text" th:field="*{course}" /></p>
+    <p>教师编号: <input type="text" th:field="*{teacherId}" /></p>
+    <p>分数: <input type="text" th:field="*{score}" /></p>
+
+    <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+</form>
+
+<a href="/student/list">查看所有学生</a>
+
+</body>
+</html>
